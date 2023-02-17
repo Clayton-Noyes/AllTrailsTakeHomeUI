@@ -9,9 +9,17 @@
 
   /* Place the interior items correctly */
   display: flex;
-  flex-direction:row;
-  justify-content:space-between;
-  align-items:end;
+  flex-direction: row;
+  align-items: end;
+}
+
+.restaurantContainer.selected {
+  border: 3px solid #2C5601;
+}
+
+.restaurantImg {
+  width: 64px;
+  height: 72px;  
 }
 
 .restaurantDetails__Container {
@@ -19,14 +27,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-}
-
-.restaurantDetails__GreenStar {
-  margin-right: 5px;
-}
-
-.restaurantDetails__Spacer {
-  padding: 0 5px;
+  padding: 0 0 0 13px;
 }
 
 .restaurantDetails__Name {
@@ -39,21 +40,36 @@
   color: #2B381F;
 }
 
+.restaurantDetails__ReviewInfo {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.restaurantDetails__GreenStar {
+  margin-right: 5px;
+}
+
+.restaurantDetails__Spacer {
+  padding: 0 5px;
+}
+
+.restaurantDetails__Rating {
+  color: #2b381F;
+}
+
 .restaurantDetails__Description {
   font-size: 13px;
   color: #656e5e;
 }
 
-.restaurantImg {
-  width: 64px;
-  height: 72px;  
-}
-
 .bookmarkContainer {
+  flex-grow: 1;
   height: 100%;
-  width: 55px;
+  width: auto;
+
+  /* Internal display settings */
   display: flex;
-  flex-direction:row;
-  justify-content:flex-end;
-  align-items:flex-start;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-start;
 }

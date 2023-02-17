@@ -8,8 +8,10 @@ import defaultLocationPic from '../../assets/default-place-image.png'
 const Place = ({ restaurant }) => {
   let { id, name, description } = restaurant;
 
+  let placeContainerNames = "restaurantContainer" + (id === 1 ? " selected" : '');
+
   return (
-    <div className="restaurantContainer">
+    <div className={ placeContainerNames }>
       <img className="restaurantImg" src={defaultLocationPic} />
       <div className="restaurantDetails__Container">
         <span className="restaurantDetails__Name">{name}</span>
