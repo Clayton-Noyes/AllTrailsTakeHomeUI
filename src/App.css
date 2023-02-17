@@ -1,0 +1,9 @@
+.layout {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "list map";
+  grid-template-columns: 432px 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+}
