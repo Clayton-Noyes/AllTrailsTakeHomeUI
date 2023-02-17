@@ -2,8 +2,8 @@
 import './Header.css';
 
 // import the assets needed to display the All Trails logo
-import allTrailsWatermark from '../../assets/Wordmark.png'
-import atLunchIcon from '../../assets/AtLunch.png'
+import allTrailsWatermark from '../../assets/wordmark.png'
+import atLunchIcon from '../../assets/at-lunch.png'
 import magnifyingGlass from '../../assets/magnifying-glass.png'
 
 const Header = () => {
@@ -13,7 +13,7 @@ const Header = () => {
         <img classes={['watermark']} src={allTrailsWatermark} />
         <img classes={['watermark']} src={atLunchIcon} />
       </div>
-      <div className='header__InnerContainer searchBox'>
+      <div className='searchBox'>
         <img src={magnifyingGlass} />
         <input className='searchBox__input' placeholder='Search restaurants' />
       </div>
