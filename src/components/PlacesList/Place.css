@@ -13,13 +13,19 @@
   align-items: end;
 }
 
+@media only screen and (max-width: 749px) {
+  .restaurantContainer {
+    width: 100%;
+  }
+}
+
 .restaurantContainer.selected {
   border: 3px solid #2C5601;
 }
 
 .restaurantImg {
   width: 64px;
-  height: 72px;  
+  height: 72px;
 }
 
 .restaurantDetails__Container {
