@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import Place from './Place';
 
+import MapIcon from '../../assets/map-icon.svg';
+
 const PlacesList = ({ places, coordinates }) => {
   const { lat, lng } = coordinates
   const body = { lat, lng, radius: 10000};
@@ -27,6 +29,13 @@ const PlacesList = ({ places, coordinates }) => {
           place={obj}
         />
       ))}
+
+      <button
+        className='toMapBtn'
+      >
+        <img className='mapIcon' src={MapIcon} />
+        <span>Map</span>
+      </button>
     </div>
   )
 };
