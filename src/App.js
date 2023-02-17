@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 
 import Header from './components/Header/Header';
@@ -10,6 +10,7 @@ import Map from './components/Map/Map';
 const App = () => {
   const [ initialData, setInitialData ] = useState('');
   const [ isLoading, setIsLoading ] = useState(false);
+  const [ coordinates, setCoordinates ] = useState({ lat: 40.2, lng: -111.62 })
 
   useEffect(() => {
     // Set isLoading to true to indicate that the app is loading data
@@ -30,8 +31,8 @@ const App = () => {
   return (
     <div className="layout">
       <Header />
-      <PlacesList places={initialData}/>
-      <Map />
+      <PlacesList places={initialData} coordinates={coordinates}/>
+      <Map coordinates={coordinates} setCoordinates={setCoordinates}/>
     </div>
   )
 }
