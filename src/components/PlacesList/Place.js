@@ -6,9 +6,10 @@ import selectedBookmark from '../../assets/bookmark-saved.svg'
 import defaultLocationPic from '../../assets/default-place-image.png'
 
 const Place = ({ restaurant }) => {
-  let { id, name, description } = restaurant;
+  let { id, name, rating, description, number_of_reviews } = restaurant;
 
   let placeContainerNames = "restaurantContainer" + (id === 1 ? " selected" : '');
+  let reviews = `${number_of_reviews} Reviews`
 
   return (
     <div className={ placeContainerNames }>
@@ -17,9 +18,9 @@ const Place = ({ restaurant }) => {
         <span className="restaurantDetails__Name">{name}</span>
         <div className="restaurantDetails__ReviewInfo">
           <img  className='restaurantDetails__GreenStar' src={greenStar} />
-          <span className='restaurantDetails__Rating'>4.7</span>
+          <span className='restaurantDetails__Rating'>{rating}</span>
           <span className='restaurantDetails__Spacer'>•</span>
-          <span className='restaurantDetails__Reviews'>3.7K Reviews</span>
+          <span className='restaurantDetails__Reviews'>{reviews}</span>
         </div>
         <span className="restaurantDetails__Description">{description}</span>
       </div>
