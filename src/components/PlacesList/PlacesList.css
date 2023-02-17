@@ -1,0 +1,13 @@
+.placesOuterContainer {
+  /* General styling choices */
+  background: #EFEFEC;
+  grid-area: list;
+  min-width: 300px;
+  max-width: 480px;
+  padding: 24px;
+
+  /* displaying interior items */
+  display: flex;
+  flex-direction:column;
+
+}

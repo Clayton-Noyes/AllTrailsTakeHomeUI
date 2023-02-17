@@ -1,0 +1,59 @@
+.restaurantContainer {
+  /* General Styling */
+  margin: 0 0 10px 0;
+  max-width: 432px;
+  padding: 16px;
+  background: #FFFFFF;
+  box-shadow: 0px 8px 16px -1px rgba(66, 82, 110, 0.2);
+  border-radius: 16px;
+
+  /* Place the interior items correctly */
+  display: flex;
+  flex-direction:row;
+  justify-content:space-between;
+  align-items:end;
+}
+
+.restaurantDetails__Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.restaurantDetails__GreenStar {
+  margin-right: 5px;
+}
+
+.restaurantDetails__Spacer {
+  padding: 0 5px;
+}
+
+.restaurantDetails__Name {
+  display: block;
+
+  /* Font Information */
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  color: #2B381F;
+}
+
+.restaurantDetails__Description {
+  font-size: 13px;
+  color: #656e5e;
+}
+
+.restaurantImg {
+  width: 64px;
+  height: 72px;  
+}
+
+.bookmarkContainer {
+  height: 100%;
+  width: 55px;
+  display: flex;
+  flex-direction:row;
+  justify-content:flex-end;
+  align-items:flex-start;
+}
