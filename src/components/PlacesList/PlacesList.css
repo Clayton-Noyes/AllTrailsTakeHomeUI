@@ -1,13 +1,28 @@
 .placesOuterContainer {
   /* General styling choices */
   background: #EFEFEC;
-  grid-area: list;
-  min-width: 300px;
-  max-width: 480px;
-  padding: 24px;
+  height: auto;
+  
 
   /* displaying interior items */
   display: flex;
   flex-direction:column;
+}
 
+@media only screen and (max-width: 749px) {
+  .placesOuterContainer {
+    width: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+  }
+}
+
+@media only screen and (min-width: 750px) {
+  .placesOuterContainer {
+    grid-area: list;
+    padding: 24px;
+  }
 }
