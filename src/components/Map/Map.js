@@ -1,9 +1,10 @@
 import './Map.css'
 
+import ListIcon from '../../assets/list-icon.svg'
+
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
-const Map = ({ coordinates }) => {
-  console.log({ coordinates });
+const Map = ({ isMobile, coordinates, showMap, showListClickHandler }) => {
   const { lat, lng } = coordinates;
   const center = { lat, lng }
 
@@ -12,9 +13,22 @@ const Map = ({ coordinates }) => {
   // Determine what to load
   if (!isLoaded) return <div>Loading...</div>
   return (
-    <GoogleMap className="map" zoom={12} center={center} mapContainerClassName="map-container">
-      <Marker position={{ lat: 40.2, lng: -111.62 }} />
-    </GoogleMap>
+    <>
+      <GoogleMap mapContainerClassName="map-container map" zoom={12} center={center}>
+        <Marker position={{ lat: 40.2, lng: -111.62 }} />
+      </GoogleMap>
+      {
+        (isMobile && showMap) && (
+          <button
+            className='changePanelBtn toList'
+            onClick={showListClickHandler}
+          >
+            <img className='listIcon' src={ListIcon} />
+            <span>List</span>
+          </button>
+        )
+      }
+    </>
   )
 };
 
