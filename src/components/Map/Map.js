@@ -2,7 +2,7 @@ import './Map.css'
 
 import ListIcon from '../../assets/list-icon.svg'
 
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api';
 
 const Map = ({ isMobile, coordinates, showMap, showListClickHandler }) => {
   const { lat, lng } = coordinates;
@@ -14,8 +14,14 @@ const Map = ({ isMobile, coordinates, showMap, showListClickHandler }) => {
   if (!isLoaded) return <div>Loading...</div>
   return (
     <>
-      <GoogleMap mapContainerClassName="map-container map" zoom={12} center={center}>
-        <Marker position={{ lat: 40.2, lng: -111.62 }} />
+      <GoogleMap 
+        mapContainerClassName="map-container map"
+        zoom={12}
+        center={center}
+      >
+        <MarkerF
+          position={center}
+        />
       </GoogleMap>
       {
         (isMobile && showMap) && (
