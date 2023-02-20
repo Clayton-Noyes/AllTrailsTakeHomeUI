@@ -21,6 +21,7 @@
 
 .restaurantContainer.selected {
   border: 3px solid #2C5601;
+  padding: 13px;
 }
 
 .restaurantImg {
