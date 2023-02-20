@@ -18,7 +18,7 @@
   align-items: end;
 }
 
-.searchBox {
+.searchBox > form {
   /* Auto layout */
   display: flex;
   flex-direction: row;
@@ -36,6 +36,10 @@
   flex-grow: 0;
 }
 
+.searchBox > form > button {
+  border: none;
+}
+
 .searchBox__input {
   border: none;
   background-color: #efefec;
@@ -47,7 +51,7 @@
   line-height: 150%;
   flex: none;
   order: 1;
-  flex-grow: 0;
+  flex-grow: 1;
 }
 
 
