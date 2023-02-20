@@ -6,18 +6,25 @@ import Place from './Place';
 
 import MapIcon from '../../assets/map-icon.svg';
 
-const PlacesList = ({ places, coordinates }) => {
+const PlacesList = ({ 
+  places,
+  isMobile,
+  showList,
+  coordinates,
+  showMapClickHandler,
+  selectedIndex,
+  setSelectedPlace
+}) => {
   const { lat, lng } = coordinates
-  const body = { lat, lng, radius: 10000};
+  const body = { lat, lng, radius: 10000 };
 
   const googleDataClickHandler = async () => {
     const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/google_places`, { places_query: body })
-    console.log({ data })
   }
 
   return (
     <div className='placesOuterContainer'>
-      <button 
+      <button
         className='getGoogleData'
         onClick={googleDataClickHandler}
       >
@@ -27,15 +34,21 @@ const PlacesList = ({ places, coordinates }) => {
         <Place
           key={obj.id}
           place={obj}
+          selectedIndex={selectedIndex}
+          setSelectedPlace={setSelectedPlace}
         />
       ))}
-
-      <button
-        className='toMapBtn'
-      >
-        <img className='mapIcon' src={MapIcon} />
-        <span>Map</span>
-      </button>
+      {
+        (isMobile && showList) && (
+          <button
+            className='changePanelBtn toMap'
+            onClick={showMapClickHandler}
+          >
+            <img className='listIcon' src={MapIcon} />
+            <span>Map</span>
+          </button>
+        )
+      }
     </div>
   )
 };
