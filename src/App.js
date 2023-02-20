@@ -7,32 +7,86 @@ import Header from './components/Header/Header';
 import PlacesList from './components/PlacesList/PlacesList';
 import Map from './components/Map/Map';
 
+// Use the SearchQueryProvider to wrap the entire app in a search query context
+//   Now the map component and the header component can both access the search query and its setter function
+import { SearchQueryProvider } from './components/Providers/SearchQueryContext';
+
 const App = () => {
-  const [ initialData, setInitialData ] = useState('');
-  const [ isLoading, setIsLoading ] = useState(false);
-  const [ coordinates, setCoordinates ] = useState({ lat: 40.2, lng: -111.62 })
+  // Stateful data provided
+  const [initialData, setInitialData] = useState('');
+  const [isMobile, setIsMobile] = useState(window.outerWidth < 750);
+  const [showList, setShowList] = useState(true);
+  const [showMap, setShowMap] = useState(!isMobile);
+  const [coordinates, setCoordinates] = useState({ lat: 40.2, lng: -111.62 })
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
+  const handleSetSelectedPlace = (selectedPlaceId) => {
+    if (selectedPlaceId === selectedIndex) setSelectedIndex(-1);
+    else setSelectedIndex(selectedPlaceId);
+  };
+
+  // Setter that changes what panel is showing, is only used in the buttons that are provided
+  //   for mobile layout
+  const changePanel = () => {
+    setShowMap(prevState => (!prevState));
+    setShowList(prevState => (!prevState));
+  }
+
+  // Handle getting initial data
   useEffect(() => {
-    // Set isLoading to true to indicate that the app is loading data
-    setIsLoading((prevState) => (!prevState));
+    if (!initialData) {
+      // Declare the function that will get the initial data that will be used by the application
+      const getInitialData = async () => {
+        // Await axios to make the api call to the rails backend to get the data from the db
+        let { data } = await axios(`${process.env.REACT_APP_BACKEND_URL}/favorite_places.json`)
 
-    // Declare the function that will get the initial data that will be used by the application
-    const getInitialData = async () => {
-      // Await axios to make the api call to the rails backend to get the data from the db
-      let { data } = await axios(`${process.env.REACT_APP_BACKEND_URL}/favorite_places.json`)
-      
-      // Set is loading to false and set the initialData
-      setIsLoading((prevState) => (!prevState));
-      setInitialData(data);
-    };
-    getInitialData()
-  }, [])
+        // Set initialData
+        setInitialData(data);
+      };
+      getInitialData()
+    }
+  }, []);
+
+  // Handle Resizing the Browser window
+  useEffect(() => {
+    const handleResize = () => {
+      const changedToMobile = window.outerWidth < 750
+      setIsMobile(changedToMobile)
+      setShowMap(!changedToMobile)
+    }
+
+    window.addEventListener('resize', handleResize)
+  })
 
   return (
     <div className="layout">
-      <Header />
-      <PlacesList places={initialData} coordinates={coordinates}/>
-      <Map coordinates={coordinates} setCoordinates={setCoordinates}/>
+      <SearchQueryProvider>
+        <Header />
+        {
+          showList && (
+            <PlacesList
+              isMobile={isMobile}
+              showList={showList}
+              places={initialData}
+              coordinates={coordinates}
+              showMapClickHandler={changePanel}
+              selectedIndex={selectedIndex}
+              setSelectedPlace={handleSetSelectedPlace}
+            />
+          )
+        }
+        {
+          showMap && (
+            <Map
+              isMobile={isMobile}
+              showMap={showMap}
+              coordinates={coordinates}
+              setCoordinates={setCoordinates}
+              showListClickHandler={changePanel}
+            />
+          )
+        }
+      </SearchQueryProvider>
     </div>
   )
 }
