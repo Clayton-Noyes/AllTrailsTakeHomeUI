@@ -36,8 +36,12 @@
   padding: 0 0 0 13px;
 }
 
-.restaurantDetails__Name {
-  display: block;
+.restaurantDetails__NameBtn {
+  display: flex;
+  background-color: #fff;
+  border: none;
+  padding: 0px;
+  margin: 0px;
 
   /* Font Information */
   font-style: normal;
