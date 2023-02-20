@@ -13,7 +13,8 @@ import { SearchQueryProvider } from './components/Providers/SearchQueryContext';
 
 const App = () => {
   // Stateful data provided
-  const [initialData, setInitialData] = useState('');
+  const [initialDataReceived, setInitialDataReceived] = useState(false);
+  const [placeData, setPlaceData] = useState([]);
   const [isMobile, setIsMobile] = useState(window.outerWidth < 750);
   const [showList, setShowList] = useState(true);
   const [showMap, setShowMap] = useState(!isMobile);
@@ -36,18 +37,32 @@ const App = () => {
 
   // Handle getting initial data
   useEffect(() => {
-    if (!initialData) {
+    if (!initialDataReceived) {
       // Declare the function that will get the initial data that will be used by the application
-      const getInitialData = async () => {
+      const getPlaceData = async () => {
+        console.log("Initial Data retrieval initiated");
+
         // Await axios to make the api call to the rails backend to get the data from the db
         let { data } = await axios(`${process.env.REACT_APP_BACKEND_URL}/favorite_places.json`)
 
-        // Set initialData
-        setInitialData(data);
+        // Set PlaceData
+        setPlaceData(data);
+
+        // Set inital data received to true so that the initial data is not retrieved on every render
+        setInitialDataReceived(true);
       };
-      getInitialData()
+      getPlaceData();
     }
   }, []);
+
+  const updatePlaceHandler = (place) => {
+    setPlaceData((prevState) => {
+      return [
+        ...prevState,
+        place
+      ]
+    });
+  }
 
   // Handle Resizing the Browser window
   useEffect(() => {
@@ -69,10 +84,11 @@ const App = () => {
             <PlacesList
               isMobile={isMobile}
               showList={showList}
-              places={initialData}
+              places={placeData}
               coordinates={coordinates}
               showMapClickHandler={changePanel}
               selectedPlace={selectedPlace}
+              updatePlace={updatePlaceHandler}
               setSelectedPlace={handleSetSelectedPlace}
             />
           )
