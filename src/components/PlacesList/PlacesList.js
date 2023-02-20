@@ -12,7 +12,7 @@ const PlacesList = ({
   showList,
   coordinates,
   showMapClickHandler,
-  selectedIndex,
+  selectedPlace,
   setSelectedPlace
 }) => {
   const { lat, lng } = coordinates
@@ -34,7 +34,7 @@ const PlacesList = ({
         <Place
           key={obj.id}
           place={obj}
-          selectedIndex={selectedIndex}
+          selectedPlace={selectedPlace}
           setSelectedPlace={setSelectedPlace}
         />
       ))}

@@ -7,17 +7,17 @@ import defaultLocationPic from '../../assets/default-place-image.png'
 
 const Place = ({ 
   place,
-  selectedIndex,
+  selectedPlace,
   setSelectedPlace
 }) => {
   let { object_id, is_favorite, name, rating, description, number_of_reviews } = place;
-  let isSelected = object_id === selectedIndex;
+  let isSelected = object_id === selectedPlace.object_id;
 
   let placeContainerNames = "restaurantContainer" + (isSelected ? " selected" : '');
   let reviews = `${number_of_reviews} Reviews`
 
   const nameClickHandler = () => {
-    setSelectedPlace(object_id);
+    setSelectedPlace(place);
   }
 
   return (
