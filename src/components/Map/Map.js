@@ -10,6 +10,13 @@ const Map = ({ isMobile, coordinates, showMap, showListClickHandler }) => {
 
   const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY })
 
+  const mapClickHandler = (e) => {
+    console.log("map was clicked");
+    console.log(e);
+
+    let x = 4;
+  }
+
   // Determine what to load
   if (!isLoaded) return <div>Loading...</div>
   return (
