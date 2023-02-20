@@ -15,10 +15,18 @@ const Header = () => {
   const [ searchQuery, setSearchQuery ] = useContext(SearchQueryContext);
 
   const searchQueryChangeHandler = (event) => {
-    let newSearchQuery = event.target.value
+    let newSearchQuery = event.target.value;
 
     setSearchQuery(newSearchQuery);
+
+    console.log({newSearchQuery, searchQuery});
   };
+
+  const onFormSubmit = e => {
+    console.log("Submit event triggered");
+
+    e.preventDefault();
+  }
 
   return (
     <div className='header__Container'>
@@ -27,12 +35,16 @@ const Header = () => {
         <img classes={['watermark']} src={atLunchIcon} />
       </div>
       <div className='searchBox'>
-        <img src={magnifyingGlass} />
-        <input 
-          className='searchBox__input'
-          placeholder='Search restaurants'
-          onChange={_debounce(searchQueryChangeHandler, 300)}
-        />
+        <form onSubmit={onFormSubmit}>
+          <button type="submit">
+            <img src={magnifyingGlass} />
+          </button>
+          <input 
+            className='searchBox__input'
+            value={searchQuery}
+            onChange={_debounce(searchQueryChangeHandler, 300)}
+          />
+        </form>
       </div>
     </div>
   )
