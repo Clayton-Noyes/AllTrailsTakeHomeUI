@@ -7,6 +7,7 @@ import defaultLocationPic from '../../assets/default-place-image.png'
 
 const Place = ({ 
   place,
+  updatePlace,
   selectedPlace,
   setSelectedPlace
 }) => {
@@ -18,6 +19,19 @@ const Place = ({
 
   const nameClickHandler = () => {
     setSelectedPlace(place);
+  }
+
+  const bookmarkClickHandler = async () => {
+    // If this object is a favorite then we need to delete it as a favorite
+    //   send a delete favorite place request to the back end
+
+    // Otherwise we need to mark it as a favorite and create it in the back end
+    //   send a create favorite place request to the back end
+
+    // Update the is_favorite to !is_favorite
+    is_favorite = !is_favorite
+
+    // Then update this place in the places array
   }
 
   return (
@@ -39,7 +53,11 @@ const Place = ({
         <span className="restaurantDetails__Description">{description}</span>
       </div>
       <div className="bookmarkContainer">
-        <img className="bookmark" src={is_favorite ? selectedBookmark : deselectedBookmark} />
+        <img
+          onClick={bookmarkClickHandler}
+          className="bookmark"
+          src={is_favorite ? selectedBookmark : deselectedBookmark}
+        />
       </div>
     </div>
   )
