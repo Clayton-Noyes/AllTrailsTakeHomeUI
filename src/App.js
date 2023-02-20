@@ -18,11 +18,13 @@ const App = () => {
   const [showList, setShowList] = useState(true);
   const [showMap, setShowMap] = useState(!isMobile);
   const [coordinates, setCoordinates] = useState({ lat: 40.2, lng: -111.62 })
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [selectedPlace, setSelectedPlace] = useState({ object_id: -1});
 
-  const handleSetSelectedPlace = (selectedPlaceId) => {
-    if (selectedPlaceId === selectedIndex) setSelectedIndex(-1);
-    else setSelectedIndex(selectedPlaceId);
+  const handleSetSelectedPlace = (newSelectedPlace) => {
+    let clicked_object_id = newSelectedPlace.object_id;
+
+    if (selectedPlace.object_id === clicked_object_id) setSelectedPlace({ object_id: -1});
+    else setSelectedPlace(newSelectedPlace);
   };
 
   // Setter that changes what panel is showing, is only used in the buttons that are provided
@@ -70,7 +72,7 @@ const App = () => {
               places={initialData}
               coordinates={coordinates}
               showMapClickHandler={changePanel}
-              selectedIndex={selectedIndex}
+              selectedPlace={selectedPlace}
               setSelectedPlace={handleSetSelectedPlace}
             />
           )
