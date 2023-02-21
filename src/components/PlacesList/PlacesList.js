@@ -13,13 +13,19 @@ const PlacesList = ({
   coordinates,
   showMapClickHandler,
   selectedPlace,
-  setSelectedPlace
+  setSelectedPlace,
+  updateAllPlaces,
+  updatePlace
 }) => {
   const { lat, lng } = coordinates
   const body = { lat, lng, radius: 10000 };
 
   const googleDataClickHandler = async () => {
     const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/google_places`, { places_query: body })
+
+    updateAllPlaces(data);
+
+    console.log({data});
   }
 
   return (
@@ -36,6 +42,7 @@ const PlacesList = ({
           place={obj}
           selectedPlace={selectedPlace}
           setSelectedPlace={setSelectedPlace}
+          updatePlace={updatePlace}
         />
       ))}
       {
