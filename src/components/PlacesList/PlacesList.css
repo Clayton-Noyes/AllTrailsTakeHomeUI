@@ -7,6 +7,7 @@
   /* displaying interior items */
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 }
 
 .changePanelBtn {
