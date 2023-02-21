@@ -3,6 +3,7 @@ import './App.css';
 import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 
+import AppModal from './components/Modal/AppModal';
 import Header from './components/Header/Header';
 import PlacesList from './components/PlacesList/PlacesList';
 import Map from './components/Map/Map';
@@ -14,25 +15,32 @@ import { SearchQueryProvider } from './components/Providers/SearchQueryContext';
 const App = () => {
   // Stateful data provided
   const [initialDataReceived, setInitialDataReceived] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [placeData, setPlaceData] = useState([]);
   const [isMobile, setIsMobile] = useState(window.outerWidth < 750);
   const [showList, setShowList] = useState(true);
   const [showMap, setShowMap] = useState(!isMobile);
-  const [coordinates, setCoordinates] = useState({ lat: 40.215618, lng: -111.673630 })
+  const [coordinates, setCoordinates] = useState({ lat: 40.215618, lng: -111.673630 });
   const [selectedPlace, setSelectedPlace] = useState({ object_id: -1 });
 
   const getGooglePlacesHandler = async (newSearchQuery) => {
     const { lat, lng } = coordinates
     const body = { lat, lng, radius: 10000, query: newSearchQuery };
 
+    // set is loading to true
+    setIsLoading(true);
+
+    // get the google places data from the backend
     const { data } = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/google_places`,
       { places_query: body }
     );
 
+    // set the place data
     setPlaceData(data);
 
-    console.log({data});
+    // set isloading to false
+    setIsLoading(false);
   };
 
   const handleSetSelectedPlace = (newSelectedPlace) => {
@@ -54,7 +62,8 @@ const App = () => {
     if (!initialDataReceived) {
       // Declare the function that will get the initial data that will be used by the application
       const getPlaceData = async () => {
-        console.log("Initial Data retrieval initiated");
+        // Set is loading to true
+        setIsLoading(true);
 
         // Await axios to make the api call to the rails backend to get the data from the db
         let { data } = await axios(`${process.env.REACT_APP_BACKEND_URL}/favorite_places.json`)
@@ -64,6 +73,9 @@ const App = () => {
 
         // Set inital data received to true so that the initial data is not retrieved on every render
         setInitialDataReceived(true);
+
+        // Set is loading to false
+        setIsLoading(false);
       };
       getPlaceData();
     }
@@ -95,6 +107,7 @@ const App = () => {
 
   return (
     <div className="layout">
+      { isLoading && <AppModal isLoading={isLoading} /> }
       <SearchQueryProvider>
         <Header
           getGooglePlacesHandler={getGooglePlacesHandler}
