@@ -19,7 +19,21 @@ const App = () => {
   const [showList, setShowList] = useState(true);
   const [showMap, setShowMap] = useState(!isMobile);
   const [coordinates, setCoordinates] = useState({ lat: 40.215618, lng: -111.673630 })
-  const [selectedPlace, setSelectedPlace] = useState({ object_id: -1});
+  const [selectedPlace, setSelectedPlace] = useState({ object_id: -1 });
+
+  const getGooglePlacesHandler = async (newSearchQuery) => {
+    const { lat, lng } = coordinates
+    const body = { lat, lng, radius: 10000, query: newSearchQuery };
+
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/google_places`,
+      { places_query: body }
+    );
+
+    setPlaceData(data);
+
+    console.log({data});
+  };
 
   const handleSetSelectedPlace = (newSelectedPlace) => {
     let clicked_object_id = newSelectedPlace.object_id;
@@ -82,7 +96,9 @@ const App = () => {
   return (
     <div className="layout">
       <SearchQueryProvider>
-        <Header />
+        <Header
+          getGooglePlacesHandler={getGooglePlacesHandler}
+        />
         {
           showList && (
             <PlacesList
@@ -106,7 +122,10 @@ const App = () => {
               places={placeData}
               setCoordinates={setCoordinates}
               showListClickHandler={changePanel}
+              selectedPlace={selectedPlace}
+              setSelectedPlace={handleSetSelectedPlace}
               showMap={showMap}
+              updatePlace={updatePlaceHandler}
             />
           )
         }
