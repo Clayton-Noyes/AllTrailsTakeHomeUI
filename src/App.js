@@ -13,7 +13,7 @@ import Map from './components/Map/Map';
 import { SearchQueryProvider } from './components/Providers/SearchQueryContext';
 
 const App = () => {
-  // Stateful data provided
+  // Stateful data
   const [initialDataReceived, setInitialDataReceived] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [placeData, setPlaceData] = useState([]);
@@ -23,6 +23,7 @@ const App = () => {
   const [coordinates, setCoordinates] = useState({ lat: 40.215618, lng: -111.673630 });
   const [selectedPlace, setSelectedPlace] = useState({ object_id: -1 });
 
+  // Pulls data from the back end google places integration
   const getGooglePlacesHandler = async (newSearchQuery) => {
     const { lat, lng } = coordinates
     const body = { lat, lng, radius: 10000, query: newSearchQuery };
@@ -43,6 +44,7 @@ const App = () => {
     setIsLoading(false);
   };
 
+  // Sets the place object that is currently selected in the app
   const handleSetSelectedPlace = (newSelectedPlace) => {
     let clicked_object_id = newSelectedPlace.object_id;
 
@@ -50,8 +52,23 @@ const App = () => {
     else setSelectedPlace(newSelectedPlace);
   };
 
+  // Handles updating an individual place object
+  const updatePlaceHandler = (updatedPlace) => {
+    setPlaceData((prevState) => {
+      return prevState.map(prevPlace => {
+        if (prevPlace.object_id === updatedPlace.object_id) return updatedPlace;
+        else return prevPlace;
+      })
+    });
+  }
+
+  // Handles updating all of the place objects with a new array of place objects
+  const updateAllPlacesHandler = (newPlaces) => {
+    setPlaceData(newPlaces);
+  }
+
   // Setter that changes what panel is showing, is only used in the buttons that are provided
-  //   for mobile layout
+  //   in the mobile layout
   const changePanel = () => {
     setShowMap(prevState => (!prevState));
     setShowList(prevState => (!prevState));
@@ -81,20 +98,7 @@ const App = () => {
     }
   }, []);
 
-  const updatePlaceHandler = (updatedPlace) => {
-    setPlaceData((prevState) => {
-      return prevState.map(prevPlace => {
-        if (prevPlace.object_id === updatedPlace.object_id) return updatedPlace;
-        else return prevPlace;
-      })
-    });
-  }
-
-  const updateAllPlacesHandler = (newPlaces) => {
-    setPlaceData(newPlaces);
-  }
-
-  // Handle Resizing the Browser window
+  // Handle the transition between the breakpoints in the app's layout
   useEffect(() => {
     const handleResize = () => {
       const changedToMobile = window.outerWidth < 750

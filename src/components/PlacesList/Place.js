@@ -4,6 +4,7 @@ import deselectedBookmark from '../../assets/bookmark-resting.svg'
 import selectedBookmark from '../../assets/bookmark-saved.svg'
 import axios from 'axios';
 
+// Get the default location pic to use if a place doesn't have an image_url
 import defaultLocationPic from '../../assets/default-place-image.png'
 
 const Place = ({
@@ -12,11 +13,11 @@ const Place = ({
   selectedPlace,
   setSelectedPlace
 }) => {
-  let { object_id, is_favorite, name, rating, description, number_of_reviews } = place;
+  let { object_id, is_favorite, name, rating, description, number_of_reviews, image_url } = place;
   let isSelected = object_id === selectedPlace.object_id;
-
-  let placeContainerNames = "restaurantContainer" + (isSelected ? " selected" : '');
+  let placeContainerClassNames = "restaurantContainer" + (isSelected ? " selected" : '');
   let reviews = `${number_of_reviews} Reviews`
+  let imageSrc = image_url ? image_url : defaultLocationPic;
 
   const nameClickHandler = () => {
     setSelectedPlace(place);
@@ -43,7 +44,7 @@ const Place = ({
   };
 
   const createFavoritePlace = async (newPlace) => {
-    console.log(`Creating new favorite place in database`);
+    console.log(`Creating new favorite place in database`); 
     await axios.post(`${process.env.REACT_APP_BACKEND_URL}/favorite_places.json`, newPlace).catch(e => {
       favPlaceRequestErrorHandler(e, "Error encountered while creating a favorite place in database");
     });
@@ -55,15 +56,15 @@ const Place = ({
     // If this object is a favorite then we need to delete it as a favorite
     //   send a delete favorite place request to the back end
     if (is_favorite) deleteFavoritePlace(newPlace);
-    else createFavoritePlace(newPlace);
+    else createFavoritePlace(newPlace); // otherwise we need to create it in the backend as a favorite
 
     // Update this place in the places array with an is_favorite
     updatePlace(newPlace)
   }
 
   return (
-    <div className={placeContainerNames}>
-      <img className="restaurantImg" src={defaultLocationPic} />
+    <div className={placeContainerClassNames}>
+      <img className="restaurantImg" src={imageSrc} />
       <div className="restaurantDetails__Container">
         <button
           className="restaurantDetails__NameBtn"

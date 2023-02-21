@@ -4,9 +4,7 @@ import ListIcon from '../../assets/list-icon.svg';
 import RestingMarkerIcon from '../../assets/pin-resting.png';
 import SelectedMarkerIcon from '../../assets/pin-selected.png';
 
-// Need to use InfoWindowF components to display custom html and css when the marker is selected
-// import Place from '../../components/PlacesList/Place';
-
+// TODO: Need to use InfoWindowF component to display custom html and css when the marker is selected, so as to comply with the design page
 import {
   GoogleMap,
   MarkerF,
@@ -32,11 +30,11 @@ const Map = ({
 
   // Provide a method for a Marker to change the selectedPlace when clicked
   const markerClickHandler = (place) => {
-    setCoordinates({ lat: place.lat, lng: place.lng })
+    setCoordinates({ lat: place.lat, lng: place.lng });
     setSelectedPlace(place);
   };
 
-  if (!isLoaded) return <div>Loading...</div>
+  if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
       <GoogleMap
@@ -47,7 +45,8 @@ const Map = ({
         {
           places.map(place => {
             // TODO: For some reason when you select a new place, the icon is not updating... I am not sure why
-            //   this is. I have to research this and see if I can figure it out.
+            //   this is, but this appears to be a difficult issue to solve in the React world anyways, so I 
+            //   am not going to spend a ton of time handling this.
             const isSelected = place.object_id === selectedPlace.object_id;
             const markerImage = (isSelected) ? SelectedMarkerIcon : RestingMarkerIcon;
 
