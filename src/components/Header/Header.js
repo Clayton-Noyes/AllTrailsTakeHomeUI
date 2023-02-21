@@ -20,8 +20,6 @@ const Header = ({
     let newSearchQuery = event.target.value;
 
     setSearchQuery(newSearchQuery);
-
-    console.log({newSearchQuery, searchQuery});
   };
 
   const onFormSubmit = async (e) => {
