@@ -11,10 +11,12 @@ import magnifyingGlass from '../../assets/magnifying-glass.png';
 
 import { SearchQueryContext } from '../Providers/SearchQueryContext';
 
-const Header = () => {
+const Header = ({
+  getGooglePlacesHandler
+}) => {
   const [ searchQuery, setSearchQuery ] = useContext(SearchQueryContext);
 
-  const searchQueryChangeHandler = (event) => {
+  const searchQueryChangeHandler = async (event) => {
     let newSearchQuery = event.target.value;
 
     setSearchQuery(newSearchQuery);
@@ -22,10 +24,10 @@ const Header = () => {
     console.log({newSearchQuery, searchQuery});
   };
 
-  const onFormSubmit = e => {
-    console.log("Submit event triggered");
-
+  const onFormSubmit = async (e) => {
     e.preventDefault();
+
+    await getGooglePlacesHandler(searchQuery);
   }
 
   return (
@@ -41,8 +43,7 @@ const Header = () => {
           </button>
           <input 
             className='searchBox__input'
-            value={searchQuery}
-            onChange={_debounce(searchQueryChangeHandler, 300)}
+            onChange={searchQueryChangeHandler}
           />
         </form>
       </div>
