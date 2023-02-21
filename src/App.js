@@ -18,7 +18,7 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(window.outerWidth < 750);
   const [showList, setShowList] = useState(true);
   const [showMap, setShowMap] = useState(!isMobile);
-  const [coordinates, setCoordinates] = useState({ lat: 40.2, lng: -111.62 })
+  const [coordinates, setCoordinates] = useState({ lat: 40.215618, lng: -111.673630 })
   const [selectedPlace, setSelectedPlace] = useState({ object_id: -1});
 
   const handleSetSelectedPlace = (newSelectedPlace) => {
@@ -55,13 +55,17 @@ const App = () => {
     }
   }, []);
 
-  const updatePlaceHandler = (place) => {
+  const updatePlaceHandler = (updatedPlace) => {
     setPlaceData((prevState) => {
-      return [
-        ...prevState,
-        place
-      ]
+      return prevState.map(prevPlace => {
+        if (prevPlace.object_id === updatedPlace.object_id) return updatedPlace;
+        else return prevPlace;
+      })
     });
+  }
+
+  const updateAllPlacesHandler = (newPlaces) => {
+    setPlaceData(newPlaces);
   }
 
   // Handle Resizing the Browser window
@@ -88,8 +92,9 @@ const App = () => {
               coordinates={coordinates}
               showMapClickHandler={changePanel}
               selectedPlace={selectedPlace}
-              updatePlace={updatePlaceHandler}
               setSelectedPlace={handleSetSelectedPlace}
+              updateAllPlaces={updateAllPlacesHandler}
+              updatePlace={updatePlaceHandler}
             />
           )
         }
@@ -97,10 +102,11 @@ const App = () => {
           showMap && (
             <Map
               isMobile={isMobile}
-              showMap={showMap}
               coordinates={coordinates}
+              places={placeData}
               setCoordinates={setCoordinates}
               showListClickHandler={changePanel}
+              showMap={showMap}
             />
           )
         }
