@@ -4,31 +4,37 @@ import ListIcon from '../../assets/list-icon.svg'
 
 import { GoogleMap, useLoadScript, MarkerF } from '@react-google-maps/api';
 
-const Map = ({ isMobile, coordinates, showMap, showListClickHandler }) => {
+const Map = ({ isMobile, places, coordinates, showMap, showListClickHandler }) => {
   const { lat, lng } = coordinates;
   const center = { lat, lng }
 
   const { isLoaded } = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY })
 
-  const mapClickHandler = (e) => {
-    console.log("map was clicked");
-    console.log(e);
+  // const mapClickHandler = (e) => {
+  //   console.log("map was clicked");
+  //   console.log(e);
 
-    let x = 4;
-  }
-
+  //   let x = 4;
+  // }
   // Determine what to load
   if (!isLoaded) return <div>Loading...</div>
   return (
     <>
-      <GoogleMap 
+      <GoogleMap
         mapContainerClassName="map-container map"
-        zoom={12}
+        zoom={15}
         center={center}
+        initialCenter={center}
+      // onClick={mapClickHandler}
       >
-        <MarkerF
-          position={center}
-        />
+        {
+          places.map(place => (
+            <MarkerF
+              key={place.object_id}
+              position={{ lat: place.lat, lng: place.lng }}
+            />
+          ))
+        }
       </GoogleMap>
       {
         (isMobile && showMap) && (
