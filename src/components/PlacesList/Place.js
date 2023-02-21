@@ -2,10 +2,11 @@ import './Place.css';
 import greenStar from '../../assets/green-star.svg'
 import deselectedBookmark from '../../assets/bookmark-resting.svg'
 import selectedBookmark from '../../assets/bookmark-saved.svg'
+import axios from 'axios';
 
 import defaultLocationPic from '../../assets/default-place-image.png'
 
-const Place = ({ 
+const Place = ({
   place,
   updatePlace,
   selectedPlace,
@@ -21,24 +22,50 @@ const Place = ({
     setSelectedPlace(place);
   }
 
-  const bookmarkClickHandler = async () => {
+  const favPlaceRequestErrorHandler = (e, msg) => {
+    console.error(msg);
+    console.error(e);
+    console.error("\n\n");
+  }
+
+  const deleteFavoritePlace = async (place) => {
+    const { id } = place;
+
+    if (!id) {
+      console.error("Id must be present in order to delete a favorite place");
+      return null;
+    } else {
+      console.log(`Deleting favorite place with id ${id} from database`);
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/favorite_places/${id}.json`, place).catch(e => {
+        favPlaceRequestErrorHandler(e, "Error encountered while deleting favorite place from database")
+      });
+    }
+  };
+
+  const createFavoritePlace = async (newPlace) => {
+    console.log(`Creating new favorite place in database`);
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/favorite_places.json`, newPlace).catch(e => {
+      favPlaceRequestErrorHandler(e, "Error encountered while creating a favorite place in database");
+    });
+  }
+
+  const bookmarkClickHandler = () => {
+    const new_is_favorite_value = !is_favorite;
+    const newPlace = { ...place, is_favorite: new_is_favorite_value };
     // If this object is a favorite then we need to delete it as a favorite
     //   send a delete favorite place request to the back end
+    if (is_favorite) deleteFavoritePlace(newPlace);
+    else createFavoritePlace(newPlace);
 
-    // Otherwise we need to mark it as a favorite and create it in the back end
-    //   send a create favorite place request to the back end
-
-    // Update the is_favorite to !is_favorite
-    is_favorite = !is_favorite
-
-    // Then update this place in the places array
+    // Update this place in the places array with an is_favorite
+    updatePlace(newPlace)
   }
 
   return (
-    <div className={ placeContainerNames }>
+    <div className={placeContainerNames}>
       <img className="restaurantImg" src={defaultLocationPic} />
       <div className="restaurantDetails__Container">
-        <button 
+        <button
           className="restaurantDetails__NameBtn"
           onClick={nameClickHandler}
         >
